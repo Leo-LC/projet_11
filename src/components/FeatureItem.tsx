@@ -7,25 +7,14 @@ interface FeatureItemProps {
   text: string;
 }
 
-export default function FeatureItem({ imgSrc, alt, title, text } : FeatureItemProps) {
+function FeatureItem({ imgSrc, alt, title, text } : FeatureItemProps) {
   return (
     <div className="feature-item">
       <img src={imgSrc} alt={alt} className="feature-icon" />
       <h3 className="feature-item-title">{title}</h3>
       <p>{text}</p>
     </div>
-
-    /*  <div className="feature-item">
-      <img
-        src="src/assets/img/icon-chat.png"
-        alt="Chat Icon"
-        className="feature-icon"
-      />
-      <h3 className="feature-item-title">You are our #1 priority</h3>
-      <p>
-        Need to talk to a representative? You can get in touch through our 24/7
-        chat or through a phone call in less than 5 minutes.
-      </p>
-    </div> */
   );
 }
+
+export default FeatureItem;

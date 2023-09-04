@@ -1,7 +1,9 @@
-export default function Navbar() {
+import React from "react";
+
+function Navbar() {
   return (
     <nav className="main-nav">
-      <a className="main-nav-logo" href="./index.html">
+      <a className="main-nav-logo" href="/">
         <img
           className="main-nav-logo-image"
           src="src/assets/img/argentBankLogo.png"
@@ -18,3 +20,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;
