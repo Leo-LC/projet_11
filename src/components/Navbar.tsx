@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { authentication } from "../utils/authentication";
 
 function Navbar() {
   return (
@@ -12,10 +14,17 @@ function Navbar() {
         <h1 className="sr-only">Argent Bank</h1>
       </a>
       <div>
-        <a className="main-nav-item" href="./sign-in">
-          <i className="fa fa-user-circle"></i>
-          Sign In
-        </a>
+        {authentication.isAuthenticated()
+          ? <Link className="main-nav-item" to="/" onClick={authentication.signOut}>
+              <i className="fa fa-sign-out"></i>
+              Sign Out
+              </Link>
+          : <Link className="main-nav-item" to="/sign-in">
+              <i className="fa fa-user-circle"></i>
+              Sign In
+            </Link>
+        }
+       
       </div>
     </nav>
   );
