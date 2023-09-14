@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { logOut } from "../utils/user/userSlice";
-import logo from "/argentBankLogo.png";
 
 function Navbar() {
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
@@ -16,7 +15,7 @@ function Navbar() {
       >
         <img
           className='main-nav-logo-image'
-          src={logo}
+          src='/img/argentBankLogo.png'
           alt='Argent Bank Logo'
         />
 

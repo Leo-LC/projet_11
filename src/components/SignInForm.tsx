@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { logIn, fetchProfile } from "../utils/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
+import { cp } from "fs";
 
 export default function SignInForm() {
   const [formData, setFormData] = useState({
@@ -14,18 +15,22 @@ export default function SignInForm() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  // Vérification si l'utilisateur est connecté
+  const userId = useAppSelector((state) => state.user.user.id);
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  console.log(isAuthenticated);
 
-  // Si l'utilisateur est connecté, on fetch et redirige vers la page profile
+  // Si l'utilisateur est connecté, on fetch son profil
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchProfile());
-      navigate("/profile");
     }
   }, [isAuthenticated]);
+
+  // Si le profil est chargé, on redirige l'utilisateur vers son profil
+  useEffect(() => {
+    if (userId) {
+      navigate(`/profile/${userId}`);
+    }
+  }, [userId]);
 
   // Gestion des changements dans les inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

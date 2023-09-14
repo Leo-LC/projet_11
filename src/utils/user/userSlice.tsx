@@ -2,8 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import { API_BASE_URL } from "../../app/constants";
 
+//TODO [QUEST] : faut-il séparer davantage les fonctions (logIn, fetchProfile, logOut) dans des fichiers différents ?
 export interface UsersState {
-  user: object;
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    id: string;
+    userName: string;
+  };
   isAuthenticated: boolean;
   //TODO : [LOW] : loading screen
   loading: boolean;
