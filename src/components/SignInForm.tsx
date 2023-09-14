@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { logIn, fetchProfile } from "../utils/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
-import { authentication } from "../utils/authentication";
-import fetchProfile from "../utils/fetchProfile";
 
 export default function SignInForm() {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-  const { username, password } = formData;
+  //Déstructuration de l'objet formData pour passer les valeurs à l'API
+  const { email, password } = formData;
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // Vérification si l'utilisateur est connecté
+  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  console.log(isAuthenticated);
+
+  // Si l'utilisateur est connecté, on fetch et redirige vers la page profile
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchProfile());
+      navigate("/profile");
+    }
+  }, [isAuthenticated]);
+
+  // Gestion des changements dans les inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -18,33 +35,26 @@ export default function SignInForm() {
     });
   };
 
-  const navigate = useNavigate();
-
-  const handleFormSubmission = async (
-    e: React.FormEvent<HTMLButtonElement>
-  ) => {
+  // Gestion de la soumission du formulaire => dispatch de l'action logIn
+  const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await authentication.signIn(username, password);
-      if (response.status === 200) {
-        fetchProfile();
-        return navigate(`/profile/username`);
-      } else if (response.status === 400) {
-        console.log("error in the handleFormSubmission function");
+    if (formData) {
+      try {
+        dispatch(logIn(formData));
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log("error in the handleFormSubmission function");
     }
   };
 
   return (
-    <form>
+    <form onSubmit={handleFormSubmission}>
       <div className='input-wrapper'>
-        <label htmlFor='username'>Adresse Mail</label>
+        <label htmlFor='email'>Adresse Mail</label>
         <input
           type='text'
-          id='username'
-          value={username}
+          id='email'
+          value={email}
           onChange={handleChange}
         />
       </div>
@@ -65,12 +75,7 @@ export default function SignInForm() {
 
         <label htmlFor='remember-me'>Remember me</label>
       </div>
-      <button
-        className='sign-in-button'
-        onClick={handleFormSubmission}
-      >
-        Sign In
-      </button>
+      <button className='sign-in-button'>Sign In</button>
     </form>
   );
 }

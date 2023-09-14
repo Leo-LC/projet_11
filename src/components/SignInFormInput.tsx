@@ -17,6 +17,3 @@ export default function SignInFormInput({inputClassName, labelText, htmlFor, inp
             </div>
     )
 }
-
-
-/* TODO : ASK si c'est judicieux d'utiliser un component pour quelque chose de peu / pas réutilisé */

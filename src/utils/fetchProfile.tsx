@@ -19,10 +19,6 @@ async function fetchProfile(): Promise<any> {
     const userInformations = response.data.body;
     console.log(userInformations);
 
-    // TODO : store ID in localStorage ?
-    localStorage.setItem("userID", userInformations.id);
-
-
     return userInformations;
 
   } catch (error: any) {
