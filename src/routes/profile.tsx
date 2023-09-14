@@ -1,25 +1,37 @@
-import { useParams } from "react-router-dom";
-
 import React from "react";
+import { useAppSelector } from "../app/hooks";
+
+// COMPONENTS
 import Layout from "../components/Layout";
 import AccountsWrapper from "../components/AccountsWrapper";
+import { EditNameForm } from "../components/EditNameForm";
 
 export default function Profile() {
-  const { id } = useParams();
+  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const userName = useAppSelector((state) => state.user.userName);
 
-  document.title = "Argent Bank - Profile";
+  document.title = `Argent Bank - Compte de ${userName}`;
 
   return (
     <Layout mainClassName='main bg-dark'>
-      <div className='header'>
-        <h1>
-          Welcome back
-          <br />
-          {id} !
-        </h1>
-        <button className='edit-button'>Edit Name</button>
-      </div>
-      <AccountsWrapper />
+      {!isAuthenticated ? (
+        <h1>Vous devez être connecté pour accéder à cette page</h1>
+      ) : (
+        <>
+          <div className='header'>
+            <h1>
+              Welcome back
+              <br />
+              {userName} !
+            </h1>
+            <button className='edit-button'>Edit Name</button>
+          </div>
+          {/* TODO : Render either EditNameForm or AccountsWrapper depending on
+          the button clicked */}
+          <EditNameForm />
+          <AccountsWrapper />
+        </>
+      )}
     </Layout>
   );
 }

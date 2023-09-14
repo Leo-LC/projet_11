@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { logIn, fetchProfile } from "../utils/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
-import { cp } from "fs";
 
 export default function SignInForm() {
   const [formData, setFormData] = useState({
@@ -15,7 +14,7 @@ export default function SignInForm() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.user.user.id);
+  const userId = useAppSelector((state) => state.user.id);
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
 
   // Si l'utilisateur est connecté, on fetch son profil

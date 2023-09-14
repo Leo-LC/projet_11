@@ -1,31 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import { API_BASE_URL } from "../../app/constants";
+import { ReactElement } from "react";
 
 //TODO [QUEST] : faut-il séparer davantage les fonctions (logIn, fetchProfile, logOut) dans des fichiers différents ?
-export interface UsersState {
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    id: string;
-    userName: string;
-  };
+export interface UserState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  id: string;
+  userName: string;
+
   isAuthenticated: boolean;
   //TODO : [LOW] : loading screen
   loading: boolean;
   error: any;
 }
 
-const initialState: UsersState = {
-  user: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    id: "",
-    userName: "",
-  },
+const initialState: UserState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  id: "",
+  userName: "",
+
   isAuthenticated: false,
+  //TODO : remplacer par status : 'idle' | 'loading' | 'succeeded' | 'failed' ?
   loading: false,
   error: null,
 };
@@ -56,7 +56,6 @@ export const fetchProfile = createAsyncThunk("user/fetchProfile", async () => {
       }
     );
     const userInformations = response.data.body;
-    localStorage.removeItem("userToken");
     return userInformations;
   } catch (error: any) {
     console.log(error.response);
@@ -64,7 +63,24 @@ export const fetchProfile = createAsyncThunk("user/fetchProfile", async () => {
   }
 });
 
-// Gestion de la déconnexion de l'utilisateur
+// Async Thunk : gère la modification du username de l'utilisateur
+export const editUserName = createAsyncThunk(
+  "user/editUsernamt",
+  async (data: string) => {
+    const token = localStorage.getItem("userToken");
+    const response = await Axios.put(
+      `${API_BASE_URL}/user/profile`,
+      { userName: data },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const userName = response.data.body.userName;
+    return userName;
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -72,8 +88,7 @@ const userSlice = createSlice({
   reducers: {
     logOut(state) {
       if (state.isAuthenticated) {
-        state.isAuthenticated = false;
-        state.user = initialState.user;
+        Object.assign(state, initialState);
       }
     },
   },
@@ -92,13 +107,18 @@ const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
-        state.user = action.payload;
+        Object.assign(state, action.payload);
         state.loading = false;
         state.error = null;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(editUserName.fulfilled, (state, action) => {
+        state.userName = action.payload;
+        state.loading = false;
+        state.error = null;
       });
   },
 });
