@@ -8,6 +8,7 @@ export default function SignInForm() {
     email: "",
     password: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
 
   //Déstructuration de l'objet formData pour passer les valeurs à l'API
   const { email, password } = formData;
@@ -38,6 +39,8 @@ export default function SignInForm() {
       [e.target.id]: e.target.value,
     });
   };
+  const token = localStorage.getItem("userToken");
+  console.log(token);
 
   // Gestion de la soumission du formulaire => dispatch de l'action logIn
   const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,8 +78,8 @@ export default function SignInForm() {
         <input
           type='checkbox'
           id='remember-me'
+          onChange={() => setRememberMe(!rememberMe)}
         />
-
         <label htmlFor='remember-me'>Remember me</label>
       </div>
       <button className='sign-in-button'>Sign In</button>
@@ -84,9 +87,5 @@ export default function SignInForm() {
   );
 }
 
-/* 
-TODO 
-
-: afficher un message d'erreur à l'utilisateur
-: handle "remember me"
- */
+// TODO : Ajouter un message d'erreur si l'authentification échoue
+// TODO : [QUEST] Handle remember me : gestion du token ? local storage ? cookie ? durée de vie ? etc...

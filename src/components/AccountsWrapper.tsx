@@ -25,7 +25,7 @@ function AccountsWrapper() {
 
       const accountsList = accountsData.map((account, index) => (
         <Account
-        /* TODO : change key value  */
+        // TODO : change key value (nanoId ?)
           key={index}
           title={account.title}
           amount={account.amount}

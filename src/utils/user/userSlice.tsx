@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import { API_BASE_URL } from "../../app/constants";
-import { ReactElement } from "react";
 
 //TODO [QUEST] : faut-il séparer davantage les fonctions (logIn, fetchProfile, logOut) dans des fichiers différents ?
 export interface UserState {
@@ -36,7 +35,7 @@ export const logIn = createAsyncThunk("user/logIn", async (data: any) => {
     const response = await Axios.post(`${API_BASE_URL}/user/login`, data);
     const token = response.data.body.token;
     localStorage.setItem("userToken", token);
-    return;
+    return token;
   } catch (error) {
     console.log("error in logIn : " + error);
   }
@@ -88,6 +87,7 @@ const userSlice = createSlice({
   reducers: {
     logOut(state) {
       if (state.isAuthenticated) {
+        localStorage.removeItem("userToken");
         Object.assign(state, initialState);
       }
     },

@@ -32,9 +32,12 @@ export const EditNameForm = () => {
               id='username'
               value={username}
               onChange={handleChange}
+              className='border-2 border-green-400 rounded-md'
             />
           </div>
-          <button className='edit-button'>Confirm Name</button>
+          <button className='bg-green-400 text-white text-lg font-bold'>
+            Confirm Name
+          </button>
         </form>
       </section>
     </>
