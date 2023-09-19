@@ -1,11 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { logOut } from "../utils/user/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRightToBracket,
+  faCircleUser,
+  faGear,
+  faPowerOff,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
-  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const userToken = useAppSelector((state) => state.user.userToken);
   const dispatch = useAppDispatch();
+
+  const userName = useAppSelector((state) => state.user.userName);
+
+  /*   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    localStorage.removeItem("userToken");
+    navigate("/");
+  }; */
 
   return (
     <nav className='main-nav'>
@@ -21,23 +38,34 @@ function Navbar() {
 
         <h1 className='sr-only'>Argent Bank</h1>
       </a>
-      <div>
-        {isAuthenticated ? (
+      {/* TODO : en faire un compoennt à part : gestion du signin/out en fonction de usertoken ET de la page sur laquelle on se trouve*/}
+      <div className='flex gap-4 text-center items-center text-primary'>
+        <span className='main-nav-item user-name'>{userName}</span>
+        <FontAwesomeIcon icon={faCircleUser} />
+        <FontAwesomeIcon icon={faGear} />
+        {userToken ? (
           <Link
             className='main-nav-item'
             to='/'
-            onClick={() => dispatch(logOut())}
+            onClick={() => {
+              dispatch(logOut());
+              localStorage.removeItem("userToken");
+            }}
           >
-            <i className='fa fa-sign-out'></i>
-            Sign Out
+            <FontAwesomeIcon
+              icon={faPowerOff}
+              className='text-primary'
+            />
           </Link>
         ) : (
           <Link
             className='main-nav-item'
             to='/sign-in'
           >
-            <i className='fa fa-user-circle'></i>
-            Sign In
+            <FontAwesomeIcon
+              icon={faArrowRightToBracket}
+              className='text-primary'
+            />
           </Link>
         )}
       </div>

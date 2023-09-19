@@ -16,14 +16,14 @@ export default function SignInForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.id);
-  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const userToken = useAppSelector((state) => state.user.userToken);
 
   // Si l'utilisateur est connecté, on fetch son profil
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(fetchProfile());
+    if (userToken) {
+      dispatch(fetchProfile(userToken));
     }
-  }, [isAuthenticated]);
+  }, [userToken]);
 
   // Si le profil est chargé, on redirige l'utilisateur vers son profil
   useEffect(() => {
@@ -39,15 +39,17 @@ export default function SignInForm() {
       [e.target.id]: e.target.value,
     });
   };
-  const token = localStorage.getItem("userToken");
-  console.log(token);
 
   // Gestion de la soumission du formulaire => dispatch de l'action logIn
   const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData) {
       try {
-        dispatch(logIn(formData));
+        const response = await dispatch(logIn(formData));
+        if (rememberMe && response.payload) {
+          const token = response.payload;
+          localStorage.setItem("userToken", token);
+        }
       } catch (error) {
         console.log(error);
       }

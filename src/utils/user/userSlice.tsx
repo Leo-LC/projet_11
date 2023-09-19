@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import { API_BASE_URL } from "../../app/constants";
+import { useAppSelector } from "../../app/hooks";
+import { useNavigate } from "react-router-dom";
 
 //TODO [QUEST] : faut-il séparer davantage les fonctions (logIn, fetchProfile, logOut) dans des fichiers différents ?
 export interface UserState {
@@ -9,8 +11,8 @@ export interface UserState {
   email: string;
   id: string;
   userName: string;
+  userToken: string;
 
-  isAuthenticated: boolean;
   //TODO : [LOW] : loading screen
   loading: boolean;
   error: any;
@@ -22,8 +24,8 @@ const initialState: UserState = {
   email: "",
   id: "",
   userName: "",
+  userToken: "",
 
-  isAuthenticated: false,
   //TODO : remplacer par status : 'idle' | 'loading' | 'succeeded' | 'failed' ?
   loading: false,
   error: null,
@@ -34,7 +36,6 @@ export const logIn = createAsyncThunk("user/logIn", async (data: any) => {
   try {
     const response = await Axios.post(`${API_BASE_URL}/user/login`, data);
     const token = response.data.body.token;
-    localStorage.setItem("userToken", token);
     return token;
   } catch (error) {
     console.log("error in logIn : " + error);
@@ -42,31 +43,32 @@ export const logIn = createAsyncThunk("user/logIn", async (data: any) => {
 });
 
 // Async Thunk : gère la récupération des informations de l'utilisateur et les stocke dans le state
-export const fetchProfile = createAsyncThunk("user/fetchProfile", async () => {
-  const token = localStorage.getItem("userToken");
-  try {
-    const response = await Axios.post(
-      `${API_BASE_URL}/user/profile`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const userInformations = response.data.body;
-    return userInformations;
-  } catch (error: any) {
-    console.log(error.response);
-    return;
+export const fetchProfile = createAsyncThunk(
+  "user/fetchProfile",
+  async (token: string) => {
+    try {
+      const response = await Axios.post(
+        `${API_BASE_URL}/user/profile`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const userInformations = response.data.body;
+      return userInformations;
+    } catch (error: any) {
+      console.log(error.response);
+      return;
+    }
   }
-});
+);
 
 // Async Thunk : gère la modification du username de l'utilisateur
 export const editUserName = createAsyncThunk(
-  "user/editUsernamt",
-  async (data: string) => {
-    const token = localStorage.getItem("userToken");
+  "user/editUsername",
+  async ({ data, token }: { data: string; token: string }) => {
     const response = await Axios.put(
       `${API_BASE_URL}/user/profile`,
       { userName: data },
@@ -86,8 +88,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logOut(state) {
-      if (state.isAuthenticated) {
-        localStorage.removeItem("userToken");
+      if (state.userToken) {
         Object.assign(state, initialState);
       }
     },
@@ -95,9 +96,9 @@ const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(logIn.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
         state.loading = false;
         state.error = null;
+        state.userToken = action.payload;
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loading = false;
