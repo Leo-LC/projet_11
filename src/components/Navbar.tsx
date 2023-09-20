@@ -10,19 +10,15 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Navbar() {
-  const userToken = useAppSelector((state) => state.user.userToken);
+interface NavbarProps {
+  handleOpenModal: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ handleOpenModal }) => {
   const dispatch = useAppDispatch();
 
+  const userToken = useAppSelector((state) => state.user.userToken);
   const userName = useAppSelector((state) => state.user.userName);
-
-  /*   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(logOut());
-    localStorage.removeItem("userToken");
-    navigate("/");
-  }; */
 
   return (
     <nav className='main-nav'>
@@ -38,9 +34,13 @@ function Navbar() {
 
         <h1 className='sr-only'>Argent Bank</h1>
       </a>
-      {/* TODO : en faire un compoennt à part : gestion du signin/out en fonction de usertoken ET de la page sur laquelle on se trouve*/}
       <div className='flex gap-4 text-center items-center text-primary'>
-        <span className='main-nav-item user-name'>{userName}</span>
+        <button
+          className='main-nav-item user-name bg-transparent'
+          onClick={handleOpenModal}
+        >
+          {userName}
+        </button>
         <FontAwesomeIcon icon={faCircleUser} />
         <FontAwesomeIcon icon={faGear} />
         {userToken ? (
@@ -71,6 +71,6 @@ function Navbar() {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

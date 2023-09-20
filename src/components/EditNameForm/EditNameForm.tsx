@@ -1,11 +1,21 @@
 import React from "react";
+
+import FormModal from "../FormModal";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { editUserName } from "../../utils/user/userSlice";
 
 import EditNameInput from "./EditNameImput";
 import EditnameButton from "./EditNameButton";
 
-export const EditNameForm = () => {
+interface EditNameFormProps {
+  isOpen: boolean;
+  handleCloseModal: () => void;
+}
+
+const EditNameForm: React.FC<EditNameFormProps> = ({
+  isOpen,
+  handleCloseModal,
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -26,12 +36,15 @@ export const EditNameForm = () => {
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    handleCloseModal();
   };
 
   return (
-    <>
-      {/* TODO : définir comment toggle le component */}
-      <section className='flex flex-col gap-8 items-center'>
+    <FormModal
+      isOpen={isOpen}
+      handleCloseModal={handleCloseModal}
+    >
+      <section className='flex flex-col gap-8 items-center bg-white p-6 rounded'>
         <h2 className='text-4xl '>Edit user info </h2>
         <form className='flex flex-col gap-4'>
           <EditNameInput
@@ -69,6 +82,8 @@ export const EditNameForm = () => {
           </div>
         </form>
       </section>
-    </>
+    </FormModal>
   );
 };
+
+export default EditNameForm;

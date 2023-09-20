@@ -16,9 +16,12 @@
     "server": "node ./server/server.js"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.14.10",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^0.19.2",
     "bcrypt": "^5.1.1",

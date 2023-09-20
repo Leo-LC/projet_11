@@ -5,16 +5,17 @@ import Footer from "./Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
+  handleOpenModal: any;
 }
 
-function Layout({ children }: LayoutProps) {
+const Layout: React.FC<LayoutProps> = ({ children, handleOpenModal }) => {
   return (
     <>
-      <Navbar />
+      <Navbar handleOpenModal={handleOpenModal} />
       <main className='grid gap-4'>{children}</main>
       <Footer />
     </>
   );
-}
+};
 
 export default Layout;
