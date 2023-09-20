@@ -30,8 +30,8 @@ export const EditNameForm = () => {
 
   return (
     <>
-    {/* TODO : définir comment toggle le component */}
-      <section className='flex flex-col gap-8 items-center hidden'>
+      {/* TODO : définir comment toggle le component */}
+      <section className='flex flex-col gap-8 items-center'>
         <h2 className='text-4xl '>Edit user info </h2>
         <form className='flex flex-col gap-4'>
           <EditNameInput

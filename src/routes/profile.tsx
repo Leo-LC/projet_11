@@ -19,7 +19,7 @@ export default function Profile() {
       ) : (
         <>
           <div className='header'>
-            <h1>
+            <h1 className='text-black'>
               Welcome back
               <br />
               {userName} !

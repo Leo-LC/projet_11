@@ -11,7 +11,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className='grid gap-4'>{children}</main>
       <Footer />
     </>
   );
