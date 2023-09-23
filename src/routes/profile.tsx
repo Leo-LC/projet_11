@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "../app/hooks";
 
 // COMPONENTS
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import AccountsWrapper from "../components/Accounts/AccountsWrapper";
 import EditNameForm from "../components/EditNameForm/EditNameForm";
 

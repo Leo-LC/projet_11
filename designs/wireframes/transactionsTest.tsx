@@ -21,3 +21,24 @@ function TransactionsTest() {
 
   const userAccounts = [accountSchema];
 }
+
+/*
+API ROUTES NEEDED:
+
+GET /api/users/:id/accounts
+  response: [LIST OF ACCOUNTS]
+GET /api/users/:id/accounts/:accountId
+  response: [ACCOUNT]
+GET /api/users/:id/accounts/:accountId/transactions
+  response: [LIST OF TRANSACTIONS]
+GET /api/users/:id/accounts/:accountId/transactions/:transactionId
+  response: [TRANSACTION]
+PUT /api/users/:id/accounts/:accountId/transactions/:transactionId/category
+POST /api/users/:id/accounts/:accountId/transactions/:transactionId/note
+ 
+
+
+
+
+
+*/

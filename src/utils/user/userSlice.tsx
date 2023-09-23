@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
 import { API_BASE_URL } from "../../app/constants";
-import { useAppSelector } from "../../app/hooks";
-import { useNavigate } from "react-router-dom";
 
-//TODO [QUEST] : faut-il séparer davantage les fonctions (logIn, fetchProfile, logOut) dans des fichiers différents ?
 export interface UserState {
   firstName: string;
   lastName: string;

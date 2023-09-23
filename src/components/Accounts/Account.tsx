@@ -4,7 +4,6 @@ import React from "react";
 
 interface AccountProps {
   title: string;
-  /* TODO : ASK if it should be string or number */
   amount: string;
   description: string;
 }

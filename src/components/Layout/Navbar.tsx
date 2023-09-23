@@ -1,7 +1,7 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { logOut } from "../utils/user/userSlice";
+import { Link } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { logOut } from "../../utils/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,

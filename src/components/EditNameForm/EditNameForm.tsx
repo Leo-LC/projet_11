@@ -1,6 +1,6 @@
 import React from "react";
 
-import FormModal from "../FormModal";
+import FormModal from "./FormModal";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { editUserName } from "../../utils/user/userSlice";
 
@@ -16,24 +16,28 @@ const EditNameForm: React.FC<EditNameFormProps> = ({
   isOpen,
   handleCloseModal,
 }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
   const userName = useAppSelector((state) => state.user.userName);
   const firstName = useAppSelector((state) => state.user.firstName);
   const lastName = useAppSelector((state) => state.user.lastName);
   const token = useAppSelector((state) => state.user.userToken);
 
   const [username, setUsername] = React.useState<string>(userName);
+
   const dispatch = useAppDispatch();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  // Validate form, dispatch action, close modal
   const handleFormValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!username) return;
     dispatch(editUserName({ data: username, token: token }));
+    handleCloseModal();
   };
 
+  // Close modal
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     handleCloseModal();
@@ -51,7 +55,6 @@ const EditNameForm: React.FC<EditNameFormProps> = ({
             label='User Name : '
             id='username'
             type='text'
-            /* placeholder={userName} */
             value={username}
             handleChange={handleChange}
           />
@@ -69,8 +72,8 @@ const EditNameForm: React.FC<EditNameFormProps> = ({
             value={lastName}
             disabled={true}
           />
+
           <div className='flex sm:flex-row gap-2 flex-col'>
-            {/* TODO : turn into button component */}
             <EditnameButton
               text='Save'
               onClick={handleFormValidation}

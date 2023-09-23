@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { logIn, fetchProfile } from "../utils/user/userSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { logIn, fetchProfile } from "../../utils/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
 
 export default function SignInForm() {
@@ -90,4 +90,3 @@ export default function SignInForm() {
 }
 
 // TODO : Ajouter un message d'erreur si l'authentification échoue
-// TODO : [QUEST] Handle remember me : gestion du token ? local storage ? cookie ? durée de vie ? etc...
