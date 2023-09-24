@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
-import { API_BASE_URL } from "../../app/constants";
+import { API_BASE_URL } from "../app/constants";
 
 export interface UserState {
   firstName: string;
@@ -8,7 +8,7 @@ export interface UserState {
   email: string;
   id: string;
   userName: string;
-  userToken: string;
+  isLoggedIn: boolean;
 
   //TODO : [LOW] : loading screen
   loading: boolean;
@@ -21,7 +21,7 @@ const initialState: UserState = {
   email: "",
   id: "",
   userName: "",
-  userToken: "",
+  isLoggedIn: false,
 
   //TODO : remplacer par status : 'idle' | 'loading' | 'succeeded' | 'failed' ?
   loading: false,
@@ -42,7 +42,7 @@ export const logIn = createAsyncThunk("user/logIn", async (data: any) => {
 // Async Thunk : gère la récupération des informations de l'utilisateur et les stocke dans le state
 export const fetchProfile = createAsyncThunk(
   "user/fetchProfile",
-  async (token: string) => {
+  async (token: string | null) => {
     try {
       const response = await Axios.post(
         `${API_BASE_URL}/user/profile`,
@@ -65,7 +65,7 @@ export const fetchProfile = createAsyncThunk(
 // Async Thunk : gère la modification du username de l'utilisateur
 export const editUserName = createAsyncThunk(
   "user/editUsername",
-  async ({ data, token }: { data: string; token: string }) => {
+  async ({ data, token }: { data: string; token: string | null }) => {
     const response = await Axios.put(
       `${API_BASE_URL}/user/profile`,
       { userName: data },
@@ -85,7 +85,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logOut(state) {
-      if (state.userToken) {
+      if (state.isLoggedIn) {
         Object.assign(state, initialState);
       }
     },
@@ -95,7 +95,7 @@ const userSlice = createSlice({
       .addCase(logIn.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.userToken = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loading = false;
@@ -108,6 +108,7 @@ const userSlice = createSlice({
         Object.assign(state, action.payload);
         state.loading = false;
         state.error = null;
+        state.isLoggedIn = true;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.loading = false;

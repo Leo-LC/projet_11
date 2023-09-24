@@ -3,8 +3,10 @@ import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./css/index.css";
 import "./css/main.css";
+
+/* STORE */
 import { Provider } from "react-redux";
-import store from "./app/store";
+import { store } from "./app/store";
 
 /* ROUTES */
 import Home from "./routes/home";

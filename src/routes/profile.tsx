@@ -1,5 +1,6 @@
-import React from "react";
-import { useAppSelector } from "../app/hooks";
+import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { fetchProfile } from "../utils/userSlice";
 
 // COMPONENTS
 import Layout from "../components/Layout/Layout";
@@ -7,8 +8,16 @@ import AccountsWrapper from "../components/Accounts/AccountsWrapper";
 import EditNameForm from "../components/EditNameForm/EditNameForm";
 
 export default function Profile() {
-  const userToken = useAppSelector((state) => state.user.userToken);
+  const userToken = localStorage.getItem("userToken");
   const userName = useAppSelector((state) => state.user.userName);
+  const dispatch = useAppDispatch();
+
+  /*   useEffect(() => {
+    // Fetch user data if not already loaded
+    if (userToken && !userName) {
+      dispatch(fetchProfile(userToken));
+    }
+  }, []); */
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 

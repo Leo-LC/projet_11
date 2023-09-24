@@ -1,6 +1,8 @@
 import { faChevronDown, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import PopoverBasic from "../Basics/popover";
+import { text } from "stream/consumers";
 
 interface AccountDetailsProps {
   date?: string;
@@ -8,6 +10,26 @@ interface AccountDetailsProps {
   amount?: string;
   balance?: string;
 }
+
+const categories = ["Food", "Transport", "Health", "Leisure"];
+
+const categoriesMenu = categories.map((category) => {
+  return (
+    <div
+      className='text-left'
+      key={category}
+    >
+      {category}
+    </div>
+  );
+});
+
+const textInput = (
+  <input
+    type='text'
+    className='w-full bg-transparent border-b-2 border-white'
+  />
+);
 
 const AccountDetails: React.FC<AccountDetailsProps> = ({
   date,
@@ -42,15 +64,24 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           <div className='details_detailed_line grid grid-cols-custom gap-2'>
             <span>Category</span>
             <span>
-              Food <FontAwesomeIcon icon={faPencil} />
+              Food
+              <PopoverBasic
+                button={<FontAwesomeIcon icon={faPencil} />}
+                children={categoriesMenu}
+              />
             </span>
+
             <span></span>
             <span></span>
           </div>
           <div className='details_detailed_line grid grid-cols-custom gap-2'>
             <span>Note</span>
             <span>
-              Lorem Ipsum <FontAwesomeIcon icon={faPencil} />
+              Lorem Ipsum{" "}
+              <PopoverBasic
+                button={<FontAwesomeIcon icon={faPencil} />}
+                children={textInput}
+              />
             </span>
             <span></span>
             <span></span>

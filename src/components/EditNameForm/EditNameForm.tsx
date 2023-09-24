@@ -2,7 +2,7 @@ import React from "react";
 
 import FormModal from "./FormModal";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { editUserName } from "../../utils/user/userSlice";
+import { editUserName } from "../../utils/userSlice";
 
 import EditNameInput from "./EditNameImput";
 import EditnameButton from "./EditNameButton";
@@ -19,7 +19,7 @@ const EditNameForm: React.FC<EditNameFormProps> = ({
   const userName = useAppSelector((state) => state.user.userName);
   const firstName = useAppSelector((state) => state.user.firstName);
   const lastName = useAppSelector((state) => state.user.lastName);
-  const token = useAppSelector((state) => state.user.userToken);
+  const token = localStorage.getItem("userToken");
 
   const [username, setUsername] = React.useState<string>(userName);
 

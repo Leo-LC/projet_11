@@ -1,0 +1,306 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API Documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /accounts:
+    get:
+      tags:
+        - Account Module
+      summary: Retrieve User's Accounts
+      description: Retrieve a list of the user's accounts with their names and balances.
+      parameters:
+        - name: userId
+          in: query
+          description: The unique identifier of the user
+          required: true
+          type: string
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Successfully retrieved the user's accounts
+          schema:
+            $ref: '#/definitions/AccountList'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /accounts/{accountId}/transactions:
+    get:
+      tags:
+        - Account Module
+      summary: Retrieve Transactions for an Account
+      description: Retrieve a list of transactions for a specific account.
+      parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user
+          required: true
+          type: string
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Successfully retrieved transactions for the account
+          schema:
+            $ref: '#/definitions/TransactionList'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          
+  /accounts/{accountId}/transactions/{transactionId}/category:
+    put:
+      tags:
+        - Account Module
+      summary: Update Transaction Category
+      description: Update the category of a specific transaction for an account.
+      parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: New category for the transaction
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Transaction category updated successfully
+          schema:
+            $ref: '#/definitions/Transaction'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction or account not found
+        '500':
+          description: Internal Server Error
+  /accounts/{accountId}/transactions/{transactionId}/notes:
+    post:
+      tags:
+        - Account Module
+      summary: Add a Note to a Transaction
+      description: Add a note to a specific transaction.
+      parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
+        - in: body
+          name: note
+          description: The note to be added to the transaction.
+          required: true
+          schema:
+            $ref: '#/definitions/Note'
+      security:
+        - Bearer: []
+      responses:
+        '201':
+          description: Note added successfully.
+          schema : 
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Account or transaction not found.
+        '500':
+          description: Internal Server Error.
+
+    put:
+      tags:
+        - Account Module
+      summary: Update a Note on a Transaction
+      description: Update the note on a specific transaction.
+      parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
+        - in: body
+          name: note
+          description: The updated note to replace the existing note on the transaction.
+          required: true
+          schema:
+            $ref: '#/definitions/Note'
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Note updated successfully.
+          schema : 
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Account or transaction not found.
+        '500':
+          description: Internal Server Error.
+
+    delete:
+      tags:
+        - Account Module
+      summary: Delete a Note on a Transaction
+      description: Delete the note associated with a specific transaction.
+      parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
+      security:
+        - Bearer: []
+      responses:
+        '204':
+          description: Note deleted successfully.
+          schema : 
+            $ref: '#/definitions/Transaction'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Account, transaction, or note not found.
+        '500':
+          description: Internal Server Error.
+
+definitions:
+  AccountList:
+    type: array
+    items:
+      $ref: '#/definitions/Account'
+  Account:
+    type: object
+    properties:
+      accountId:
+        type: string
+        description: The unique identifier of the account
+      name:
+        type: string
+        description: The name of the account
+      balance:
+        type: number
+        description: The current balance of the account
+  TransactionList:
+    type: array
+    items:
+      $ref: '#/definitions/Transaction'
+  Transaction:
+    type: object
+    properties:
+      transactionId:
+        type: string
+        description: The unique identifier for the transaction.
+      date:
+        type: string
+        format: date
+        description: The date of the transaction.
+      description:
+        type: string
+        description: A basic description of the transaction.
+      amount:
+        type: number
+        description: The amount of the transaction.
+      balance:
+        type: number
+        description: The balance after the transaction.
+      type:
+        type: string
+        description: The type of transaction (e.g., deposit, withdrawal).
+      category:
+        type: string
+        description: The category of the transaction (e.g., food, entertainment).
+      note:
+        type: string
+        description: A note associated with the transaction.
+  Category:
+    type: object
+    properties:
+      category:
+        type: string
+        description: The category for the transaction (e.g., food, entertainment).
+    required:
+      - category
+  Note:
+    type: object
+    properties:
+      note:
+        type: string
+        description: The note for the transaction (e.g. "Cadeau anniversaire Bruce Banner").
+    required:
+      - note
+
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: |
+      To authenticate, include your JWT bearer token in the 'Authorization' header.
+      Example: "Authorization: Bearer your-jwt-token-here"
+
+
+
+# TODO : retirer "balance" de la définition de Transaction ? 
+# TODO : [QUEST] : response pour l'update category / note : toute la transaction details ou juste la category / note ?

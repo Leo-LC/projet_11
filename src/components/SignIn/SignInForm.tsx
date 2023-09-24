@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { logIn, fetchProfile } from "../../utils/user/userSlice";
+import { logIn, fetchProfile } from "../../utils/userSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -16,21 +16,14 @@ export default function SignInForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.id);
-  const userToken = useAppSelector((state) => state.user.userToken);
+  const userToken = localStorage.getItem("userToken");
 
-  // Si l'utilisateur est connecté, on fetch son profil
+  // Si l'utilisateur ne s'est pas déconnecté, on le redirige vers son profil
   useEffect(() => {
     if (userToken) {
-      dispatch(fetchProfile(userToken));
+      fetchAndNavigate();
     }
-  }, [userToken]);
-
-  // Si le profil est chargé, on redirige l'utilisateur vers son profil
-  useEffect(() => {
-    if (userId) {
-      navigate(`/profile/${userId}`);
-    }
-  }, [userId]);
+  }, []);
 
   // Gestion des changements dans les inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,14 +39,20 @@ export default function SignInForm() {
     if (formData) {
       try {
         const response = await dispatch(logIn(formData));
-        if (rememberMe && response.payload) {
+        if (response.payload) {
           const token = response.payload;
           localStorage.setItem("userToken", token);
+          fetchAndNavigate();
         }
       } catch (error) {
         console.log(error);
       }
     }
+  };
+
+  const fetchAndNavigate = async () => {
+    await dispatch(fetchProfile(userToken!));
+    navigate(`/profile/${userId}`);
   };
 
   return (

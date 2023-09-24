@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import React from "react";
 
 import Features from "../components/HomePage/Features";
 import Hero from "../components/HomePage/Hero";
 import Layout from "../components/Layout/Layout";
-import { fetchProfile } from "../utils/user/userSlice";
-import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+interface HomeProps {
+  handleOpenModal: any;
+}
+
+const Home: React.FC<HomeProps> = ({ handleOpenModal }) => {
   document.title = "Argent Bank - Home";
 
   return (
-    <Layout>
+    <Layout handleOpenModal={handleOpenModal}>
       <Hero />
       <Features />
     </Layout>
   );
-}
+};
+
+export default Home;

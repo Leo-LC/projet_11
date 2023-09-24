@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { logOut } from "../../utils/user/userSlice";
+import { logOut } from "../../utils/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
@@ -17,14 +17,15 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ handleOpenModal }) => {
   const dispatch = useAppDispatch();
 
-  const userToken = useAppSelector((state) => state.user.userToken);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const userName = useAppSelector((state) => state.user.userName);
+  const userId = useAppSelector((state) => state.user.id);
 
   return (
     <nav className='main-nav'>
-      <a
+      <Link
         className='main-nav-logo'
-        href='/'
+        to='/'
       >
         <img
           className='main-nav-logo-image'
@@ -33,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleOpenModal }) => {
         />
 
         <h1 className='sr-only'>Argent Bank</h1>
-      </a>
+      </Link>
       <div className='flex gap-4 text-center items-center text-primary'>
         <button
           className='main-nav-item user-name bg-transparent'
@@ -41,15 +42,24 @@ const Navbar: React.FC<NavbarProps> = ({ handleOpenModal }) => {
         >
           {userName}
         </button>
-        <FontAwesomeIcon icon={faCircleUser} />
+
+        <Link
+          to={isLoggedIn ? `/profile/${userId}` : "/sign-in"}
+          className='main-nav-item'
+        >
+          <FontAwesomeIcon
+            className='text-primary'
+            icon={faCircleUser}
+          />
+        </Link>
         <FontAwesomeIcon icon={faGear} />
-        {userToken ? (
+        {isLoggedIn ? (
           <Link
             className='main-nav-item'
             to='/'
             onClick={() => {
-              dispatch(logOut());
               localStorage.removeItem("userToken");
+              dispatch(logOut());
             }}
           >
             <FontAwesomeIcon
