@@ -16,16 +16,11 @@ paths:
       summary: Retrieve User's Accounts
       description: Retrieve a list of the user's accounts with their names and balances.
       parameters:
-        - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the user.
+        - name: userId
+          in: query
+          description: The unique identifier of the user
           required: true
-          schema:
-            type: object
-            properties:
-              userId:
-                type: string
-                description: The unique identifier of the user
+          type: string
       security:
         - Bearer: []
       responses:
@@ -37,27 +32,23 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-
-  /accounts/transactions:
+  /accounts/{accountId}/transactions:
     get:
       tags:
         - Account Module
       summary: Retrieve Transactions for an Account
       description: Retrieve a list of transactions for a specific account.
       parameters:
-        - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the account and user.
+        - name: accountId
+          in: path
+          description: The unique identifier of the account
           required: true
-          schema:
-            type: object
-            properties:
-              accountId:
-                type: string
-                description: The unique identifier of the account
-              userId:
-                type: string
-                description: The unique identifier of the user
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user
+          required: true
+          type: string
       security:
         - Bearer: []
       responses:
@@ -69,20 +60,35 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-
-  /accounts/transactions/category:
+          
+  /accounts/{accountId}/transactions/{transactionId}/category:
     put:
       tags:
         - Account Module
       summary: Update Transaction Category
       description: Update the category of a specific transaction for an account.
       parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user
+          required: true
+          type: string
         - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the account, transaction, and user, along with the new category.
+          name: body
+          description: New category for the transaction
           required: true
           schema:
-            $ref: '#/definitions/CategoryUpdateRequest'
+            $ref: '#/definitions/Category'
       security:
         - Bearer: []
       responses:
@@ -96,26 +102,40 @@ paths:
           description: Transaction or account not found
         '500':
           description: Internal Server Error
-
-  /accounts/transactions/notes:
+  /accounts/{accountId}/transactions/{transactionId}/notes:
     post:
       tags:
         - Account Module
       summary: Add a Note to a Transaction
       description: Add a note to a specific transaction.
       parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
         - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the account, transaction, and user, along with the note to be added.
+          name: note
+          description: The note to be added to the transaction.
           required: true
           schema:
-            $ref: '#/definitions/NoteAddRequest'
+            $ref: '#/definitions/Note'
       security:
         - Bearer: []
       responses:
         '201':
           description: Note added successfully.
-          schema:
+          schema : 
             $ref: '#/definitions/Transaction'
         '400':
           description: Invalid request.
@@ -132,18 +152,33 @@ paths:
       summary: Update a Note on a Transaction
       description: Update the note on a specific transaction.
       parameters:
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
         - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the account, transaction, and user, along with the updated note.
+          name: note
+          description: The updated note to replace the existing note on the transaction.
           required: true
           schema:
-            $ref: '#/definitions/NoteUpdateRequest'
+            $ref: '#/definitions/Note'
       security:
         - Bearer: []
       responses:
         '200':
           description: Note updated successfully.
-          schema:
+          schema : 
             $ref: '#/definitions/Transaction'
         '400':
           description: Invalid request.
@@ -160,24 +195,34 @@ paths:
       summary: Delete a Note on a Transaction
       description: Delete the note associated with a specific transaction.
       parameters:
-        - in: body
-          name: requestPayload
-          description: Request payload containing the unique identifier of the account, transaction, and user.
+        - name: accountId
+          in: path
+          description: The unique identifier of the account.
           required: true
-          schema:
-            $ref: '#/definitions/NoteDeleteRequest'
+          type: string
+        - name: transactionId
+          in: path
+          description: The unique identifier of the transaction.
+          required: true
+          type: string
+        - name: userId
+          in: query
+          description: The unique identifier of the user.
+          required: true
+          type: string
       security:
         - Bearer: []
       responses:
         '204':
           description: Note deleted successfully.
+          schema : 
+            $ref: '#/definitions/Transaction'
         '401':
           description: Unauthorized.
         '404':
           description: Account, transaction, or note not found.
         '500':
           description: Internal Server Error.
-
 
 definitions:
   AccountList:
@@ -196,12 +241,10 @@ definitions:
       balance:
         type: number
         description: The current balance of the account
-
   TransactionList:
     type: array
     items:
       $ref: '#/definitions/Transaction'
-
   Transaction:
     type: object
     properties:
@@ -230,67 +273,23 @@ definitions:
       note:
         type: string
         description: A note associated with the transaction.
-
-  CategoryUpdateRequest:
+  Category:
     type: object
     properties:
-      accountId:
-        type: string
-        description: The unique identifier of the account
-      transactionId:
-        type: string
-        description: The unique identifier of the transaction
-      userId:
-        type: string
-        description: The unique identifier of the user
       category:
         type: string
-        description: The new category for the transaction
-
-  NoteAddRequest:
+        description: The category for the transaction (e.g., food, entertainment).
+    required:
+      - category
+  Note:
     type: object
     properties:
-      accountId:
-        type: string
-        description: The unique identifier of the account
-      transactionId:
-        type: string
-        description: The unique identifier of the transaction
-      userId:
-        type: string
-        description: The unique identifier of the user
       note:
         type: string
-        description: The note to be added to the transaction
+        description: The note for the transaction (e.g. "Cadeau anniversaire Bruce Banner").
+    required:
+      - note
 
-  NoteUpdateRequest:
-    type: object
-    properties:
-      accountId:
-        type: string
-        description: The unique identifier of the account
-      transactionId:
-        type: string
-        description: The unique identifier of the transaction
-      userId:
-        type: string
-        description: The unique identifier of the user
-      note:
-        type: string
-        description: The updated note to replace the existing note on the transaction
-
-  NoteDeleteRequest:
-    type: object
-    properties:
-      accountId:
-        type: string
-        description: The unique identifier of the account
-      transactionId:
-        type: string
-        description: The unique identifier of the transaction
-      userId:
-        type: string
-        description: The unique identifier of the user
 
 securityDefinitions:
   Bearer:
@@ -300,3 +299,8 @@ securityDefinitions:
     description: |
       To authenticate, include your JWT bearer token in the 'Authorization' header.
       Example: "Authorization: Bearer your-jwt-token-here"
+
+
+
+# TODO : retirer "balance" de la définition de Transaction ? 
+# TODO : [QUEST] : response pour l'update category / note : toute la transaction details ou juste la category / note ?
