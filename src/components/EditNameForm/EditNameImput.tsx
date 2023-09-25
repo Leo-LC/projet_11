@@ -1,6 +1,6 @@
 import React from "react";
 
-interface EditNameInputProps {
+type EditNameInputProps = {
   label: string;
   id: string;
   type: string;
@@ -8,7 +8,7 @@ interface EditNameInputProps {
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   placeholder?: string;
-}
+};
 
 const EditNameInput: React.FC<EditNameInputProps> = ({
   label,
@@ -27,7 +27,7 @@ const EditNameInput: React.FC<EditNameInputProps> = ({
         id={id}
         value={value}
         onChange={handleChange}
-     /*    placeholder={placeholder} */
+        /*    placeholder={placeholder} */
         className={`border border-gray-300 rounded p-1
         ${disabled ? "text-gray-500 bg-gray-300" : ""}
         `}

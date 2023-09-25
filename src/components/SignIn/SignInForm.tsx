@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { logIn, fetchProfile } from "../../utils/userSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
+import InputWrapper from "./InputWrapper";
+import { Checkbox } from "@mui/material";
 
-export default function SignInForm() {
+const SignInForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -51,41 +53,33 @@ export default function SignInForm() {
   };
 
   const fetchAndNavigate = async () => {
-    await dispatch(fetchProfile(userToken!));
+    await dispatch(fetchProfile(userToken));
     navigate(`/profile/${userId}`);
   };
 
   return (
     <form onSubmit={handleFormSubmission}>
-      <div className='input-wrapper'>
-        <label htmlFor='email'>Adresse Mail</label>
-        <input
-          type='text'
-          id='email'
-          value={email}
-          onChange={handleChange}
-        />
-      </div>
-      <div className='input-wrapper'>
-        <label htmlFor='password'>Password</label>
-        <input
-          type='password'
-          id='password'
-          value={password}
-          onChange={handleChange}
-        />
-      </div>
-      <div className='input-remember'>
-        <input
-          type='checkbox'
-          id='remember-me'
-          onChange={() => setRememberMe(!rememberMe)}
-        />
-        <label htmlFor='remember-me'>Remember me</label>
-      </div>
+      <InputWrapper
+        label='Adresse Mail'
+        type='text'
+        id='email'
+        value={email}
+        onChange={handleChange}
+      />
+      <InputWrapper
+        label='Password'
+        type='password'
+        id='password'
+        value={password}
+        onChange={handleChange}
+      />
+      <Checkbox
+        checked={rememberMe}
+        onChange={() => setRememberMe(!rememberMe)}
+      />
       <button className='sign-in-button'>Sign In</button>
     </form>
   );
-}
+};
 
-// TODO : Ajouter un message d'erreur si l'authentification échoue
+export default SignInForm;

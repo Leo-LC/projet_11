@@ -7,10 +7,10 @@ import { editUserName } from "../../utils/userSlice";
 import EditNameInput from "./EditNameImput";
 import EditnameButton from "./EditNameButton";
 
-interface EditNameFormProps {
+type EditNameFormProps = {
   isOpen: boolean;
   handleCloseModal: () => void;
-}
+};
 
 const EditNameForm: React.FC<EditNameFormProps> = ({
   isOpen,

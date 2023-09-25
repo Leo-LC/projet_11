@@ -3,10 +3,10 @@ import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-interface LayoutProps {
+type LayoutProps = {
   children: React.ReactNode;
   handleOpenModal: any;
-}
+};
 
 const Layout: React.FC<LayoutProps> = ({ children, handleOpenModal }) => {
   return (

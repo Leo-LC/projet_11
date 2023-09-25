@@ -1,11 +1,11 @@
 import React from "react";
 import { Modal, Box } from "@mui/material";
 
-interface FormModalProps {
+type FormModalProps = {
   children: React.ReactNode;
   isOpen: boolean;
   handleCloseModal: () => void;
-}
+};
 
 const FormModal: React.FC<FormModalProps> = ({
   children,

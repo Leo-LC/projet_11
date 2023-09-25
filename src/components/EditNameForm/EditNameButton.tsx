@@ -1,9 +1,9 @@
 import React from "react";
 
-interface EditNameButtonProps {
+type EditNameButtonProps = {
   text: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 const EditnameButton: React.FC<EditNameButtonProps> = ({ text, onClick }) => {
   return (

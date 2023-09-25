@@ -2,12 +2,12 @@ import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 
-interface PopoverBasicProps {
+type PopoverBasicProps = {
   button?: string | React.ReactNode;
   vertical?: "top" | "bottom" | "center";
   horizontal?: "left" | "right" | "center";
   children?: React.ReactNode;
-}
+};
 
 const PopoverBasic: React.FC<PopoverBasicProps> = ({
   button,

@@ -2,11 +2,11 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-interface AccountProps {
+type AccountProps = {
   title: string;
   amount: string;
   description: string;
-}
+};
 
 function Account({ title, amount, description }: AccountProps) {
   return (

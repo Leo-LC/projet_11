@@ -10,9 +10,9 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
-interface NavbarProps {
+type NavbarProps = {
   handleOpenModal: () => void;
-}
+};
 
 const Navbar: React.FC<NavbarProps> = ({ handleOpenModal }) => {
   const dispatch = useAppDispatch();
