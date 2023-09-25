@@ -1,4 +1,4 @@
-import { faChevronDown, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import PopoverBasic from "../Basics/Popover";

@@ -16,14 +16,14 @@ function Account({ title, amount, description }: AccountProps) {
         <p className='text-4xl'>{amount}</p>
         <p className='text-xs'>{description}</p>
       </div>
-      <div className=''>
+      <>
         <button className='bg-transparent'>
           <FontAwesomeIcon
             icon={faChevronRight}
             className='text-4xl'
           />
         </button>
-      </div>
+      </>
     </section>
   );
 }

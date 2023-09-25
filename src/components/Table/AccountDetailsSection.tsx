@@ -13,7 +13,9 @@ const AccountDetailsSection: React.FC<AccountDetailsSection> = ({
     <div
       className={`details_detailed col-span-5 grid grid-rows-3 gap-1 ${className}`}
     >
-      {lines}
+      {lines.map((line, index) => (
+        <div key={index}>{line}</div>
+      ))}
     </div>
   );
 };
