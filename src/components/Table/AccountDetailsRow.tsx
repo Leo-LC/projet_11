@@ -7,6 +7,7 @@ type AccountDetailsRowProps = {
   description: string;
   amount: string;
   balance: string;
+  onClick: () => void;
 };
 
 const AccountDetailsRow: React.FC<AccountDetailsRowProps> = ({
@@ -14,9 +15,13 @@ const AccountDetailsRow: React.FC<AccountDetailsRowProps> = ({
   description,
   amount,
   balance,
+  onClick,
 }) => {
   return (
-    <div className='details_summary grid grid-cols-custom col-span-5 gap-4'>
+    <div
+      onClick={onClick}
+      className='details_summary grid grid-cols-custom col-span-5 gap-4'
+    >
       <span>{date}</span>
       <span>{description}</span>
       <span>{amount}</span>

@@ -10,14 +10,6 @@ import EditNameForm from "../components/EditNameForm/EditNameForm";
 export default function Profile() {
   const userToken = localStorage.getItem("userToken");
   const userName = useAppSelector((state) => state.user.userName);
-  const dispatch = useAppDispatch();
-
-  /*   useEffect(() => {
-    // Fetch user data if not already loaded
-    if (userToken && !userName) {
-      dispatch(fetchProfile(userToken));
-    }
-  }, []); */
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 

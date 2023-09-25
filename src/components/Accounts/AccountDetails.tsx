@@ -1,6 +1,6 @@
 import { faChevronDown, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import PopoverBasic from "../Basics/Popover";
 import AccountDetailsLine from "../Table/AccountDetailsLine";
 import AccountDetailsRow from "../Table/AccountDetailsRow";
@@ -70,6 +70,14 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     />,
   ];
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleDetails = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const accountDetailsClasses = isExpanded ? "expanded" : "collapsed";
+
   return (
     <>
       <div className='grid gap-4 text-start bg-primary text-white py-1 px-2 rounded grid-rows-auto grid-cols-custom'>
@@ -78,8 +86,12 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           description={description}
           amount={amount}
           balance={balance}
+          onClick={handleToggleDetails}
         />
-        <AccountDetailsSection lines={detailsLines} />
+        <AccountDetailsSection
+          className={accountDetailsClasses}
+          lines={detailsLines}
+        />
       </div>
     </>
   );

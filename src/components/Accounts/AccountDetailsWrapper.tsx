@@ -13,7 +13,6 @@ const AccountDetailsWrapper = () => {
         amount='$12.00'
         balance='$2,082.79'
       />
-      ;
     </>
   );
 };

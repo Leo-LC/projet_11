@@ -76,3 +76,14 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.expanded {
+  max-height: 500px; /* Set the maximum height when expanded */
+  transition: max-height 0.5s ease-in-out; /* Add a smooth transition effect */
+}
+
+.collapsed {
+  max-height: 0; /* Set the height to 0 when collapsed */
+  overflow: hidden; /* Hide the content when collapsed */
+  transition: max-height 0.5s ease-in-out; /* Add a smooth transition effect */
+}
