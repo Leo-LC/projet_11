@@ -299,8 +299,3 @@ securityDefinitions:
     description: |
       To authenticate, include your JWT bearer token in the 'Authorization' header.
       Example: "Authorization: Bearer your-jwt-token-here"
-
-
-
-# TODO : retirer "balance" de la définition de Transaction ? 
-# TODO : [QUEST] : response pour l'update category / note : toute la transaction details ou juste la category / note ?

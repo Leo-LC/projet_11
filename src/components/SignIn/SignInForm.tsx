@@ -53,7 +53,10 @@ const SignInForm = () => {
   };
 
   const fetchAndNavigate = async () => {
+    const userToken = localStorage.getItem("userToken");
     await dispatch(fetchProfile(userToken));
+    console.log(userId);
+
     navigate(`/profile/${userId}`);
   };
 

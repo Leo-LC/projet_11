@@ -4,6 +4,12 @@ function Hero() {
   return (
     <>
       <section className='hero'>
+        <div className='hero-image'>
+          <img
+            src='src/assets/img/bank-tree.jpg'
+            alt='baby tree in a pot of coins'
+          />
+        </div>
         <div className='hero-content'>
           <h2 className='sr-only'>Promoted Content</h2>
           <p className='subtitle'>No fees.</p>

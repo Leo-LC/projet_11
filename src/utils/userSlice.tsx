@@ -10,7 +10,6 @@ export interface UserState {
   userName: string;
   isLoggedIn: boolean;
 
-  //TODO : [LOW] : loading screen
   loading: boolean;
   error: any;
 }
@@ -22,8 +21,6 @@ const initialState: UserState = {
   id: "",
   userName: "",
   isLoggedIn: false,
-
-  //TODO : remplacer par status : 'idle' | 'loading' | 'succeeded' | 'failed' ?
   loading: false,
   error: null,
 };

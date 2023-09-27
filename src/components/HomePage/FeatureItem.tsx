@@ -9,7 +9,7 @@ type FeatureItemProps = {
 
 function FeatureItem({ imgSrc, alt, title, text }: FeatureItemProps) {
   return (
-    <div className='feature-item'>
+    <div className='feature-item flex flex-col items-center gap-2'>
       <img
         src={imgSrc}
         alt={alt}
