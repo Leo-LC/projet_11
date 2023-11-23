@@ -1,49 +1,59 @@
-# Argent Bank API
+# Argent Bank
 
-This codebase contains the code needed to run the backend for Argent Bank.
+Argent Bank is a new online bank aiming to make its mark in the banking sector.
 
-## Getting Started
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies](#technologies)
+- [Screenshots](#screenshots)
+- [Notes](#notes)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Prerequisites
+## Overview
 
-Argent Bank uses the following tech stack:
+Argent Bank is a project focused on developing a web application using React for the new user authentication system. The application includes a complete and responsive web interface with React, starting from provided static HTML and CSS for the homepage, login page, and profile page. Redux is utilized to manage the state of the entire application.
 
-- [Node.js v12](https://nodejs.org/en/)
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+## Features
 
-Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+- Users can visit the homepage.
+- Users can log in to the system.
+- Users can log out of the system.
+- Users can view information related to their own profile only after a successful login.
+- Users cannot modify their first name and last name but can modify their username.
 
-```bash
-# Check Node.js version
-node --version
+## Installation
 
-# Check Mongo version
-mongo --version
-```
+Instructions on how to install or set up the Argent Bank project will be provided here.
 
-### Instructions
+## Usage
 
-1. Fork this repo
-1. Clone the repo onto your computer
-1. Open a terminal window in the cloned project
-1. Run the following commands:
+Guidelines or examples on how to use the Argent Bank project will be provided here.
 
-```bash
-# Install dependencies
-npm install
+## Technologies
 
-# Start local dev server
-npm run dev:server
+- React
+- Redux
 
-# Populate database with two users
-npm run populate-db
-```
+## Screenshots
 
-Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!
+Screenshots or visual representations of the Argent Bank project will be provided here.
 
-## Populated Database Data
+## Notes
 
-Once you run the `populate-db` script, you should have two users in your database:
+- The back-end team has already created all the necessary API routes. Documentation using Swagger is included in the repository.
+- Green Code practices are emphasized during integration, with a focus on optimizing images and creating reusable components.
+
+## Contributing
+
+Information about how others can contribute to the Argent Bank project will be provided here.
+
+## License
+
+Information about the Argent Bank project's license will be provided here.
 
 ### Tony Stark
 
